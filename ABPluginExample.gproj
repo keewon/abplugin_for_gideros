@@ -1,0 +1,29 @@
+<project>
+ <properties mouseTouchOrder="0" version="1.0" disableSplash="0" app_icon="" html5_crash="" osx_domain="giderosmobile.com" win_org="GiderosMobile" autorotation="0" html5_mem="256" osx_installerId="" scaleMode="0" orientation="0" html5_pack="0" ios_bundle="com.acidblob.giderospluginexample" winrt_org="GiderosMobile" app_name="ABPluginExample" logicalHeight="480" html5_fbload="100" build_number="1" architecture="1" iosDevice="0" splashScaleMode="0" android_template="1" touchToMouse="1" encryptCode="0" html5_symbols="0" windowHeight="0" osx_org="GiderosMobile" vsync="0" mouseToTouch="1" splash_h_image="" winrt_package="com.yourdomain.yourapp" encryptAssets="0" osx_bundle="com.yourdomain." osx_signingId="" html5_host="" version_code="1" fps="60" html5_fbinstant="0" tv_icon="" exportMode="0" windowWidth="0" splash_v_image="" retinaDisplay="3" win_domain="giderosmobile.com" packageName="com.acidblob.giderospluginexample" html5_wasm="0" logicalWidth="320" backgroundColor="#ffffff" osx_category="5">
+  <imageScales/>
+  <plugins>
+   <plugin name="SceneManager" enabled="1"/>
+  </plugins>
+  <exports>
+   <export name="APK">
+    <property name="androidPath" value=""/>
+    <property name="androidSdk" value=""/>
+    <property name="androidTarget" value="26"/>
+    <property name="androidTools" value=""/>
+    <property name="buildAab" value="1"/>
+    <property name="buildApk" value="0"/>
+    <property name="deployApk" value="0"/>
+    <property name="javaPath" value=""/>
+    <property name="keyAlias" value=""/>
+    <property name="keyStore" value=""/>
+    <property name="packageName" value="com.yourdomain.yourapp"/>
+    <property name="timestampApk" value="0"/>
+   </export>
+  </exports>
+ </properties>
+ <file name="assets/abplugin.lua" excludeFromExecution="1"/>
+ <file name="assets/button.lua" excludeFromExecution="1"/>
+ <file name="assets/main.lua"/>
+ <file name="assets/scenemain.lua" excludeFromExecution="1"/>
+ <file name="assets/strict.lua" excludeFromExecution="1"/>
+</project>

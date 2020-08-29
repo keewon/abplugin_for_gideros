@@ -1,0 +1,6 @@
+_LuaPlugins_/scenemanager.lua*
+abplugin.lua*
+button.lua*
+scenemain.lua*
+strict.lua*
+main.lua*
