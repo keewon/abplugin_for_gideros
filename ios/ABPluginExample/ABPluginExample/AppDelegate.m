@@ -13,6 +13,14 @@
 
 //GIDEROS-TAG-IOS:APP-DELEGATE-DECL//
 
+// ABPluginExample -->
+#import <Tapjoy/Tapjoy.h>
+@import FirebaseCore;
+@import FirebaseAnalytics;
+#import <GoogleMobileAds/GoogleMobileAds.h>
+#import "ABPlugin.h"
+// <-- ABPluginExample
+
 #ifndef NSFoundationVersionNumber_iOS_7_1
 # define NSFoundationVersionNumber_iOS_7_1 1047.25
 #endif
@@ -86,6 +94,25 @@
     gdr_drawFirstFrame();
 
     //GIDEROS-TAG-IOS:APP-LAUNCHED//
+    
+    // ABPluginExample -->
+    [[ABPlugin sharedInstance] setViewController:self.viewController];
+
+    // Firebase
+    [FIRApp configure];
+    
+    // Tapjoy
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(tjcConnectSuccess:)
+                                                 name:TJC_CONNECT_SUCCESS
+                                               object:nil];
+    
+    [Tapjoy setDebugEnabled:YES];
+    [Tapjoy connect:@"znJ5NZWFRqGuiG-WN6DI-QEBALbbyE6EYqANHdWsjVOTdGY8e71YjZUu3E9y"]; // Use your SDK Key here
+    
+    // AdMob
+    [GADMobileAds.sharedInstance startWithCompletionHandler:nil];
+    // <-- ABPluginExample
 
     return YES;
 }
@@ -141,11 +168,17 @@
 fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
     UIBackgroundFetchResult result=UIBackgroundFetchResultNewData;
     //GIDEROS-TAG-IOS:NOTIFICATION-RX-CH//
+    // ABPluginExample -->
+    [Tapjoy setReceiveRemoteNotification:userInfo];
+    // <-- ABPluginExample
     completionHandler(result);
 }
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(nonnull NSData *)deviceToken {
     //GIDEROS-TAG-IOS:NOTIFICATION-TOKEN//
+    // ABPluginExample -->
+    [Tapjoy setDeviceToken:deviceToken];
+    // <-- ABPluginExample
 }
 
 - (void)dealloc
@@ -155,5 +188,11 @@ fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
     
     [super dealloc];
 }
+
+// ABPluginExample -->
+-(void)tjcConnectSuccess:(NSNotification*)notifyObj {
+    [[ABPlugin sharedInstance] initTapjoy];
+}
+// <-- ABPluginExample
 
 @end

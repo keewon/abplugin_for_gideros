@@ -3,7 +3,7 @@ require 'strict'
 local useABPlugin = false
 local localABPlugin = nil
 if application:getDeviceInfo() == 'Android' or application:getDeviceInfo() == 'iOS' then
-    require('abplugin')
+    require('abplugin_native')
   localABPlugin = abplugin
   useABPlugin = true
 else

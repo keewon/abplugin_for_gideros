@@ -1,5 +1,5 @@
 <project>
- <properties mouseTouchOrder="0" version="1.0" disableSplash="0" app_icon="" html5_crash="" osx_domain="giderosmobile.com" win_org="GiderosMobile" autorotation="0" html5_mem="256" osx_installerId="" scaleMode="0" orientation="0" html5_pack="0" ios_bundle="com.acidblob.giderospluginexample" winrt_org="GiderosMobile" app_name="ABPluginExample" logicalHeight="480" html5_fbload="100" build_number="1" architecture="1" iosDevice="0" splashScaleMode="0" android_template="1" touchToMouse="1" encryptCode="0" html5_symbols="0" windowHeight="0" osx_org="GiderosMobile" vsync="0" mouseToTouch="1" splash_h_image="" winrt_package="com.yourdomain.yourapp" encryptAssets="0" osx_bundle="com.yourdomain." osx_signingId="" html5_host="" version_code="1" fps="60" html5_fbinstant="0" tv_icon="" exportMode="0" windowWidth="0" splash_v_image="" retinaDisplay="3" win_domain="giderosmobile.com" packageName="com.acidblob.giderospluginexample" html5_wasm="0" logicalWidth="320" backgroundColor="#ffffff" osx_category="5">
+ <properties html5_wasm="0" mouseToTouch="1" windowWidth="0" architecture="1" logicalHeight="480" build_number="1" html5_fbinstant="0" encryptCode="0" backgroundColor="#ffffff" osx_org="GiderosMobile" osx_signingId="" packageName="com.acidblob.giderospluginexample" tv_icon="" osx_bundle="com.yourdomain." mouseTouchOrder="0" exportMode="1" html5_mem="256" orientation="0" windowHeight="0" html5_symbols="0" logicalWidth="320" osx_domain="giderosmobile.com" scaleMode="0" html5_pack="0" winrt_org="GiderosMobile" android_template="1" version_code="1" html5_host="" touchToMouse="1" app_icon="" html5_crash="" autorotation="0" version="1.0" splashScaleMode="0" win_domain="giderosmobile.com" iosDevice="0" osx_category="5" ios_bundle="com.acidblob.giderospluginexample" splash_h_image="" retinaDisplay="3" fps="60" disableSplash="0" winrt_package="com.yourdomain.yourapp" encryptAssets="0" vsync="0" html5_fbload="100" win_org="GiderosMobile" osx_installerId="" splash_v_image="" app_name="ABPluginExample">
   <imageScales/>
   <plugins>
    <plugin name="SceneManager" enabled="1"/>
@@ -21,9 +21,9 @@
    </export>
   </exports>
  </properties>
- <file name="assets/abplugin.lua" excludeFromExecution="1"/>
- <file name="assets/button.lua" excludeFromExecution="1"/>
+ <file excludeFromExecution="1" name="assets/abplugin.lua"/>
+ <file excludeFromExecution="1" name="assets/button.lua"/>
  <file name="assets/main.lua"/>
- <file name="assets/scenemain.lua" excludeFromExecution="1"/>
- <file name="assets/strict.lua" excludeFromExecution="1"/>
+ <file excludeFromExecution="1" name="assets/scenemain.lua"/>
+ <file excludeFromExecution="1" name="assets/strict.lua"/>
 </project>
