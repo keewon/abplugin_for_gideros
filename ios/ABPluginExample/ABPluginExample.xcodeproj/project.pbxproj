@@ -37,9 +37,9 @@
 		5FD896FA15CED77F00D34824 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5FD896F815CED77F00D34824 /* InfoPlist.strings */; };
 		5FD896FC15CED77F00D34824 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FD896FB15CED77F00D34824 /* main.m */; };
 		5FE658BE18FE68EA001D8EE3 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FE658BD18FE68EA001D8EE3 /* libz.dylib */; };
+		6B8EEFE22517A84500215567 /* gabplugin.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6B8EEFE02517A84500215567 /* gabplugin.mm */; };
+		6B8EEFE32517A84500215567 /* abpluginbinder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B8EEFE12517A84500215567 /* abpluginbinder.cpp */; };
 		6BD7F6C125068191008FCF8D /* ABPlugin.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6BD7F6C025068191008FCF8D /* ABPlugin.mm */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
-		6BD7F6C5250682AB008FCF8D /* gabplugin.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6BD7F6C4250682AB008FCF8D /* gabplugin.mm */; };
-		6BD7F6C7250683CE008FCF8D /* abpluginbinder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6BD7F6C6250683CE008FCF8D /* abpluginbinder.cpp */; };
 		6BD7F6C9250688A4008FCF8D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6BD7F6C8250688A4008FCF8D /* GoogleService-Info.plist */; };
 		9CB9B56AF8B1AA6D93141BD6 /* libPods-ABPluginExample AppleTV.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 967E17AD69BB43F6F085F780 /* libPods-ABPluginExample AppleTV.a */; };
 		B2011F921BAD9A24008812D4 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2011F911BAD9A24008812D4 /* GameController.framework */; };
@@ -105,11 +105,11 @@
 		5FD896FB15CED77F00D34824 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		5FD896FD15CED77F00D34824 /* ABPluginExample-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ABPluginExample-Prefix.pch"; sourceTree = "<group>"; };
 		5FE658BD18FE68EA001D8EE3 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		6B8EEFE02517A84500215567 /* gabplugin.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = gabplugin.mm; path = Plugins/gabplugin.mm; sourceTree = "<group>"; };
+		6B8EEFE12517A84500215567 /* abpluginbinder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = abpluginbinder.cpp; path = Plugins/abpluginbinder.cpp; sourceTree = "<group>"; };
 		6BD7F6BF250680FF008FCF8D /* ABPlugin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ABPlugin.h; path = Plugins/ABPlugin.h; sourceTree = "<group>"; };
 		6BD7F6C025068191008FCF8D /* ABPlugin.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = ABPlugin.mm; path = Plugins/ABPlugin.mm; sourceTree = "<group>"; };
 		6BD7F6C325068239008FCF8D /* gabplugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = gabplugin.h; path = Plugins/gabplugin.h; sourceTree = "<group>"; };
-		6BD7F6C4250682AB008FCF8D /* gabplugin.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = gabplugin.mm; sourceTree = "<group>"; };
-		6BD7F6C6250683CE008FCF8D /* abpluginbinder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = abpluginbinder.cpp; sourceTree = "<group>"; };
 		6BD7F6C8250688A4008FCF8D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8011C2FF023748155CC7CFE5 /* Pods-ABPluginExample AppleTV.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ABPluginExample AppleTV.release.xcconfig"; path = "Target Support Files/Pods-ABPluginExample AppleTV/Pods-ABPluginExample AppleTV.release.xcconfig"; sourceTree = "<group>"; };
 		949447A4C6D86B10178A0B27 /* Pods-ABPluginExample iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ABPluginExample iOS.debug.xcconfig"; path = "Target Support Files/Pods-ABPluginExample iOS/Pods-ABPluginExample iOS.debug.xcconfig"; sourceTree = "<group>"; };
@@ -223,12 +223,12 @@
 		5F58D82915D925B400137D76 /* Plugins */ = {
 			isa = PBXGroup;
 			children = (
+				6B8EEFE12517A84500215567 /* abpluginbinder.cpp */,
+				6B8EEFE02517A84500215567 /* gabplugin.mm */,
 				EB42A05D1D66ED5000766D7E /* plugins.cpp */,
 				6BD7F6C325068239008FCF8D /* gabplugin.h */,
-				6BD7F6C4250682AB008FCF8D /* gabplugin.mm */,
 				6BD7F6BF250680FF008FCF8D /* ABPlugin.h */,
 				6BD7F6C025068191008FCF8D /* ABPlugin.mm */,
-				6BD7F6C6250683CE008FCF8D /* abpluginbinder.cpp */,
 			);
 			name = Plugins;
 			sourceTree = "<group>";
@@ -587,13 +587,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				5FD896FC15CED77F00D34824 /* main.m in Sources */,
-				6BD7F6C7250683CE008FCF8D /* abpluginbinder.cpp in Sources */,
+				6B8EEFE32517A84500215567 /* abpluginbinder.cpp in Sources */,
 				5F4153FA15CEF227007B5365 /* AppDelegate.m in Sources */,
+				6B8EEFE22517A84500215567 /* gabplugin.mm in Sources */,
 				5F4153FB15CEF227007B5365 /* EAGLView.m in Sources */,
 				5F4153FC15CEF227007B5365 /* ViewController.m in Sources */,
 				EB42A05E1D66ED5000766D7E /* plugins.cpp in Sources */,
 				6BD7F6C125068191008FCF8D /* ABPlugin.mm in Sources */,
-				6BD7F6C5250682AB008FCF8D /* gabplugin.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
