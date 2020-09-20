@@ -17,3 +17,11 @@ This directory is exported using 'Export Project' > 'iOS'
 
 ## android
 This directory is exported using 'Export Project' > 'Android (Old)'
+
+### Update some settings
+
+### Change AndroidManifest.xml
+
+### Change YourMainActivity.java
+
+### Setup JNI build

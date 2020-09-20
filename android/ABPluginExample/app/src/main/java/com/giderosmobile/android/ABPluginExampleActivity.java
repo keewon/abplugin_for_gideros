@@ -34,16 +34,21 @@ import android.content.pm.ConfigurationInfo;
 import com.giderosmobile.android.player.*;
 import com.acidblob.giderospluginexample.R;
 import com.giderosmobile.android.GiderosSettings;
+import com.google.android.gms.ads.MobileAds;
+import com.google.firebase.analytics.FirebaseAnalytics;
+import com.tapjoy.TJConnectListener;
+import com.tapjoy.Tapjoy;
 
 //GIDEROS-ACTIVITY-IMPORT//
 
-public class ABPluginExampleActivity extends Activity implements OnTouchListener
+public class ABPluginExampleActivity extends Activity implements OnTouchListener, TJConnectListener
 {
 	static
 	{
 		System.loadLibrary("gvfs");
 		System.loadLibrary("lua");
 		System.loadLibrary("gideros");
+		System.loadLibrary("abplugin"); // ABPlugin
 		//Line below is a marker for plugin insertion scripts. Do not remove or change
 		//GIDEROS-STATIC-INIT//
 	}
@@ -58,6 +63,8 @@ public class ABPluginExampleActivity extends Activity implements OnTouchListener
 
 	private boolean mHasFocus = false;
 	private boolean mPlaying = false;
+
+	private FirebaseAnalytics firebaseAnalytics;
 	
 	private static FrameLayout splashLayout;
 	private static ImageView splash;
@@ -73,6 +80,15 @@ public class ABPluginExampleActivity extends Activity implements OnTouchListener
 		GiderosSettings.mainView=mGLView;
 		setContentView(mGLView);
 		mGLView.setOnTouchListener(this);
+
+		// ABPlugin -->
+		firebaseAnalytics = FirebaseAnalytics.getInstance(this);
+		ABPlugin.initFirebase(firebaseAnalytics);
+		ABPlugin.initAdMob(this);
+		Tapjoy.setDebugEnabled(true);
+		Tapjoy.connect(this.getApplicationContext(), "iZxS47-rS0uGyLUvtBf_IgEC1vwLjGhgGKVo4hrRPwszAMJlGYqqxi-dyezX", null, this);
+		MobileAds.initialize(this);
+		// <-- ABPlugin
 		
 		boolean showSplash = true;
 		
@@ -339,6 +355,18 @@ public class ABPluginExampleActivity extends Activity implements OnTouchListener
 			hasSplash--;
 		}
 	}
+
+	// ABPlugin : Tapjoy connect listener -->
+	@Override
+	public void onConnectSuccess() {
+		ABPlugin.initTapjoy();
+	}
+
+	@Override
+	public void onConnectFailure() {
+
+	}
+	// <-- ABPlugin
 }
 
 // GiderosGLSurfaceView Class
