@@ -42,3 +42,7 @@ app/.externalNativeBuild
 build/
 .cxx/
 app/release/output.json
+
+# 
+google-services.json
+.idea
