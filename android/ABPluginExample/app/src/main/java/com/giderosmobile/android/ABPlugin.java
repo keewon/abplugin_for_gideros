@@ -13,6 +13,7 @@ import com.google.android.gms.ads.reward.RewardedVideoAd;
 import com.google.android.gms.ads.reward.RewardedVideoAdListener;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.tapjoy.TJActionRequest;
+import com.tapjoy.TJConnectListener;
 import com.tapjoy.TJError;
 import com.tapjoy.TJGetCurrencyBalanceListener;
 import com.tapjoy.TJPlacement;
@@ -233,6 +234,22 @@ public class ABPlugin {
 
             }
         });
+    }
+
+    static TJConnectListener tjConnectListener = new TJConnectListener() {
+        @Override
+        public void onConnectSuccess() {
+            ABPlugin.initTapjoy();
+        }
+
+        @Override
+        public void onConnectFailure() {
+
+        }
+    };
+
+    public static TJConnectListener getTapjoyConnectListener() {
+        return tjConnectListener;
     }
 
     static TJPlacementListener tjListener = new TJPlacementListener() {

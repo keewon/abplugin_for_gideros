@@ -41,7 +41,7 @@ import com.tapjoy.Tapjoy;
 
 //GIDEROS-ACTIVITY-IMPORT//
 
-public class ABPluginExampleActivity extends Activity implements OnTouchListener, TJConnectListener
+public class ABPluginExampleActivity extends Activity implements OnTouchListener
 {
 	static
 	{
@@ -86,7 +86,7 @@ public class ABPluginExampleActivity extends Activity implements OnTouchListener
 		ABPlugin.initFirebase(firebaseAnalytics);
 		ABPlugin.initAdMob(this);
 		Tapjoy.setDebugEnabled(true);
-		Tapjoy.connect(this.getApplicationContext(), "iZxS47-rS0uGyLUvtBf_IgEC1vwLjGhgGKVo4hrRPwszAMJlGYqqxi-dyezX", null, this);
+		Tapjoy.connect(this.getApplicationContext(), "iZxS47-rS0uGyLUvtBf_IgEC1vwLjGhgGKVo4hrRPwszAMJlGYqqxi-dyezX", null, ABPlugin.getTapjoyConnectListener());
 		MobileAds.initialize(this);
 		// <-- ABPlugin
 		
@@ -355,18 +355,6 @@ public class ABPluginExampleActivity extends Activity implements OnTouchListener
 			hasSplash--;
 		}
 	}
-
-	// ABPlugin : Tapjoy connect listener -->
-	@Override
-	public void onConnectSuccess() {
-		ABPlugin.initTapjoy();
-	}
-
-	@Override
-	public void onConnectFailure() {
-
-	}
-	// <-- ABPlugin
 }
 
 // GiderosGLSurfaceView Class
