@@ -20,7 +20,7 @@ This directory is exported using 'Export Project' > 'Android (Old)'
 
 ### Update some settings
 To add Firebase and Tapjoy, you need to change project settings a lot.
-Please diff with your fresh project.
+Please diff with your fresh project or see this commit - https://github.com/keewon/abplugin_for_gideros/commit/fcb54c1eb0b41de3b7df1d641701cf16ac1ba58e
 
 ### Change AndroidManifest.xml
  * Find `<!-- ABPlugin: Tapjoy and Google products -->`
