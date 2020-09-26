@@ -19,9 +19,30 @@ This directory is exported using 'Export Project' > 'iOS'
 This directory is exported using 'Export Project' > 'Android (Old)'
 
 ### Update some settings
+To add Firebase and Tapjoy, you need to change project settings a lot.
+Please diff with your fresh project.
 
 ### Change AndroidManifest.xml
+ * Find `<!-- ABPlugin: Tapjoy and Google products -->`
 
 ### Change YourMainActivity.java
+ * Find `// ABPlugin`
 
 ### Setup JNI build
+ * In app level build.gradle, you need to add configurations for native build. Find `// ABPlugin -->`
+
+### Add Some files
+ * In app/src/main/java/com/giderosmobile/android
+   - ABPlugin.java
+ * In app/src/main/jni
+   - abpluginbinder.cpp
+   - gabplugin.h/cpp
+   - and more
+
+## APIs
+See https://github.com/keewon/abplugin_for_gideros/blob/master/assets/abplugin.lua
+
+### How to add more APIs which don't need return value
+ 1. Add them to abplugin.lua
+ 2. Add them to abpluginbinder.cpp
+ 3. Implement them in gabplugin.x or ABPlugin.x
