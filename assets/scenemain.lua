@@ -38,12 +38,12 @@ function SceneMain:onExitBegin()
 end
 
 function SceneMain:updateReward(event)
+  -- update screen here if total reward is being displayed
   local text = "updateReward: " .. event.point
   print(text)
-  local dialog = AlertDialog.new('ABPlugin', text, 'OK')
-	dialog:show()
 end
 
+-- if you want to give daily reward, write your logic here
 function SceneMain:checkAndShowDailyReward()
 end
 

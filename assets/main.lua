@@ -4,6 +4,7 @@ require 'scenemain'
 require 'abplugin'
 
 application:setBackgroundColor(0xffffff)
+-- call this function to register ABPlugin
 abPluginRegister()
 
 SCENE_MAIN = 'SCENE_MAIN'
