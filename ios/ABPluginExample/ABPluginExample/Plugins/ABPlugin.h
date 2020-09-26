@@ -17,14 +17,14 @@
 
 + (ABPlugin *)sharedInstance;
 
-- (void)initTapjoy;
-
 - (void)checkCurrency;
 - (void)showOffers;
 - (void)showVideo;
 - (BOOL)isVideoAvailable;
 - (void)setRemoteNotifications:(BOOL)enable;
 - (BOOL)isRemoteNotificationsEnabled;
+
+- (void)tjcConnectSuccess:(NSNotification*)notifyObj;
 
 @end
 

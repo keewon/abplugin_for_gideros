@@ -102,8 +102,9 @@
     [FIRApp configure];
     
     // Tapjoy
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(tjcConnectSuccess:)
+    SEL tjcConnectSuccess = @selector(tjcConnectSuccess:);
+    [[NSNotificationCenter defaultCenter] addObserver:[ABPlugin sharedInstance]
+                                             selector:tjcConnectSuccess
                                                  name:TJC_CONNECT_SUCCESS
                                                object:nil];
     
@@ -188,11 +189,5 @@ fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
     
     [super dealloc];
 }
-
-// ABPluginExample -->
--(void)tjcConnectSuccess:(NSNotification*)notifyObj {
-    [[ABPlugin sharedInstance] initTapjoy];
-}
-// <-- ABPluginExample
 
 @end

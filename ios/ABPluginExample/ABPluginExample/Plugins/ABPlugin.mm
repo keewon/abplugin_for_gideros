@@ -207,6 +207,12 @@ static NSString * ADMOB_AD_ID = @"ca-app-pub-3940256099942544/1712485313"; // te
     }];
 }
 
+#pragma mark Tapjoy
+
+-(void)tjcConnectSuccess:(NSNotification*)notifyObj {
+    [self initTapjoy];
+}
+
 #pragma mark ADMOB
 /// Tells the delegate that the reward based video ad has rewarded the user.
 - (void)rewardBasedVideoAd:(GADRewardBasedVideoAd *)rewardBasedVideoAd
