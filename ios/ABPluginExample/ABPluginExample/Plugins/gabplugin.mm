@@ -58,6 +58,11 @@ void gabplugin_cleanup()
     gevent_RemoveEventsWithGid(gid);
 }
 
+// We're sending event to both of Tapjoy and Firebase.
+// You can use only one, or compare them.
+// Example of usage)
+// eventName=complete, arg1=level1, value=(score)
+
 void gabplugin_sendEvent(const char *eventName, const char * arg1, int value)
 {
     NSString *strEventName = [NSString stringWithUTF8String:eventName];
@@ -68,17 +73,20 @@ void gabplugin_sendEvent(const char *eventName, const char * arg1, int value)
         parameters[@"arg1"] = strArg1;
     }
     parameters[@"value"] = [NSNumber numberWithInt:value];
-    
+
     [Tapjoy trackEvent:strEventName
               category:nil
             parameter1:strArg1
             parameter2:nil
                  value:value];
-    
-    
+
     [FIRAnalytics logEventWithName:strEventName
                         parameters:parameters];
 }
+
+// Tapjoy supports setting five 'Cohorts' + 'Level'
+// while Firebase supports 'User property'
+// With this, you can view metrics by cohorts/level/user properties.
 
 static int keyToCohortNumber(const char* key) {
     if (0 == strcmp(key, AB_COHORT_LEVEL)) {
@@ -92,7 +100,7 @@ void gabplugin_setUserProperty(const char *key, const char *value)
     NSString *strKey = [NSString stringWithUTF8String:key];
     NSString *strValue = nil;
     int cohort = keyToCohortNumber(key);
-    
+
     if (cohort >= 0 && cohort < 5) {
         strValue = [NSString stringWithUTF8String:value];
         [Tapjoy setUserCohortVariable:cohort value:strValue];

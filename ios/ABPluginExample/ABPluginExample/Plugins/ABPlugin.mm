@@ -8,6 +8,7 @@ static const NSInteger AD_TAPJOY = 0;
 static const NSInteger AD_ADMOB  = 1;
 static const NSInteger AD_MAX    = 2;
 
+// !!! Please use your own AD ID
 static NSString * ADMOB_AD_ID = @"ca-app-pub-3940256099942544/1712485313"; // test
 
 @interface ABPlugin (Private) <
@@ -47,6 +48,9 @@ static NSString * ADMOB_AD_ID = @"ca-app-pub-3940256099942544/1712485313"; // te
     });
 }
 
+// Implemented simple round-robin video mediation here
+// You may be interested in using mediation service like https://www.tapdaq.com
+
 - (void)showVideo {
     dispatch_async(dispatch_get_main_queue(), ^{
         self.tryVideoCount = AD_MAX;
@@ -63,17 +67,18 @@ static NSString * ADMOB_AD_ID = @"ca-app-pub-3940256099942544/1712485313"; // te
             gabplugin_enqueueEvent0(GABPLUGIN_AD_ERROR);
             return;
         }
-        
+
         int ad = (self.manualMediationIndex) % AD_MAX;
         self.manualMediationIndex++;
         self.manualMediationIndex = (self.manualMediationIndex % AD_MAX);
-        
+
         if (ad == AD_TAPJOY) {
             if ([Tapjoy isConnected]) {
                 if (self.tjVideo == nil) {
+                    // Use your own placement name
                     self.tjVideo = [TJPlacement placementWithName:@"video_unit" delegate:self];
                 }
-                
+
                 if ([self.tjVideo isContentReady]) {
                     [self.tjVideo showContentWithViewController:self.viewController];
                     [FIRAnalytics logEventWithName:@"show_tapjoy_video" parameters:nil];
@@ -103,10 +108,10 @@ static NSString * ADMOB_AD_ID = @"ca-app-pub-3940256099942544/1712485313"; // te
     if (enable) {
         dispatch_async(dispatch_get_main_queue(), ^{
             UIApplication *application = [UIApplication sharedApplication];
-            
+
             // iOS 8 Notifications
             [application registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:(UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge) categories:nil]];
-            
+
             [application registerForRemoteNotifications];
         });
     }
@@ -119,19 +124,23 @@ static NSString * ADMOB_AD_ID = @"ca-app-pub-3940256099942544/1712485313"; // te
 
 - (instancetype) init {
     self = [super init];
-    
+
     [GADRewardBasedVideoAd sharedInstance].delegate = self;
-    
+
     return self;
 }
 
+// This method is called when Tapjoy SDK is successfully connected
 - (void)initTapjoy {
     if ([Tapjoy isConnected]) {
+        // We're pre-caching Offerwall here to show it quickly.
+        // You can also do this lazily if you want.
+        // Use your own placement name
         _tjOffers = [TJPlacement placementWithName:@"offerwall_unit" delegate:self];
         //_tjVideo = [TJPlacement placementWithName:@"video_unit" delegate:self];
         //[_tjVideo requestContent];
         [_tjOffers requestContent];
-        
+
         [self checkCurrency];
     }
 }
@@ -187,23 +196,34 @@ static NSString * ADMOB_AD_ID = @"ca-app-pub-3940256099942544/1712485313"; // te
 - (void)contentDidDisappear:(TJPlacement*)placement {
     gabplugin_enqueueEvent0(GABPLUGIN_AD_DISMISSED);
     [self checkCurrency];
-    
+
     if (placement == self.tjOffers) {
         [self.tjOffers requestContent];
     }
 }
 
+// So, why do we get currency balance and spend them all?
+// Tapjoy supports two types of virtual currency.
+// 1) Self managed currency
+//    You need to use this approach when you have a server which manages virtual currency of your game.
+//    When a user earns currency, Tapjoy will directly calls your server.
+//    In this case, you can remove `checkCurrency` below.
+// 2) Tapjoy managed currency
+//    If
+//      - your game doesn't have a server
+//      - your game can be played when it's offline
+//      - your game uses not only Tapjoy for rewarded AD,
+//    you may want to manage virtual currency locally. In this case following code is for you.
+//    Get current currency balance, spend them all, and manage it by yourself (at Lua layer)
 - (void)checkCurrency {
     [Tapjoy getCurrencyBalanceWithCompletion:^(NSDictionary *parameters, NSError *error) {
         NSLog(@"getCurrencyBalanceWithCompletion: %@", parameters);
         int balance = [parameters[@"amount"] intValue];
-        
+
         [Tapjoy spendCurrency:balance completion:^(NSDictionary *parameters, NSError *error){
             gabplugin_enqueueEvent1(GABPLUGIN_AD_REWARDED, balance);
             [FIRAnalytics logEventWithName:kFIREventEarnVirtualCurrency parameters:@{ kFIRParameterValue: @(balance) }];
         }];
-        
-        
     }];
 }
 
@@ -248,7 +268,7 @@ static NSString * ADMOB_AD_ID = @"ca-app-pub-3940256099942544/1712485313"; // te
 
 /// Tells the delegate that the reward based video ad started playing.
 - (void)rewardBasedVideoAdDidStartPlaying:(GADRewardBasedVideoAd *)rewardBasedVideoAd {
-    
+
 }
 
 /// Tells the delegate that the reward based video ad closed.
@@ -258,7 +278,7 @@ static NSString * ADMOB_AD_ID = @"ca-app-pub-3940256099942544/1712485313"; // te
 
 /// Tells the delegate that the reward based video ad will leave the application.
 - (void)rewardBasedVideoAdWillLeaveApplication:(GADRewardBasedVideoAd *)rewardBasedVideoAd {
-    
+
 }
 
 @end

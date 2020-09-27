@@ -86,6 +86,7 @@ public class ABPluginExampleActivity extends Activity implements OnTouchListener
 		ABPlugin.initFirebase(firebaseAnalytics);
 		ABPlugin.initAdMob(this);
 		Tapjoy.setDebugEnabled(true);
+		// Use your own SDK key !!!
 		Tapjoy.connect(this.getApplicationContext(), "iZxS47-rS0uGyLUvtBf_IgEC1vwLjGhgGKVo4hrRPwszAMJlGYqqxi-dyezX", null, ABPlugin.getTapjoyConnectListener());
 		MobileAds.initialize(this);
 		// <-- ABPlugin

@@ -46,13 +46,18 @@ public class ABPlugin {
     static int tryVideoCount = 0;
     static WeakReference<Activity> weakActivity;
 
+    // This method is called when Tapjoy SDK is successfully connected
     public static void initTapjoy() {
         // Please set appropriate privacy flags
         TJPrivacyPolicy.getInstance().setSubjectToGDPR(false);
         TJPrivacyPolicy.getInstance().setUserConsent("1");
 
+        // We're pre-caching Offerwall here to show it quickly.
+        // You can also do this lazily if you want.
+        // Use your own placement name
         tjOffers = Tapjoy.getPlacement("offerwall_unit", tjListener);
         if (Tapjoy.isConnected()) {
+            // We may have remaining virtual currency at Tapjoy side. Let's check it.
             checkCurrency();
             tjOffers.requestContent();
         }
@@ -67,6 +72,10 @@ public class ABPlugin {
         adMobVideo.setRewardedVideoAdListener(adMobListener);
     }
 
+    // We're sending event to both of Tapjoy and Firebase.
+    // You can use only one, or compare them.
+    // Example of usage)
+    // eventName=complete, arg1=level1, value=(score)
     public static void sendEvent(String eventName, String arg1, int value) {
         Log.d("ABPlugin", "sendEvent " + eventName + " " + arg1 + " " + value);
         Tapjoy.trackEvent(null, eventName, arg1, null, (long)value);
@@ -75,6 +84,10 @@ public class ABPlugin {
         bundle.putInt(FirebaseAnalytics.Param.VALUE, value);
         firebaseAnalytics.logEvent(eventName, bundle);
     }
+
+    // Tapjoy supports setting five 'Cohorts' + 'Level'
+    // while Firebase supports 'User property'
+    // With this, you can view metrics by cohorts/level/user properties.
 
     static String AB_COHORT_LEVEL = "AB_COHORT_LEVEL";
     static String AB_COHORT_PUSH = "AB_COHORT_PUSH";
@@ -100,6 +113,8 @@ public class ABPlugin {
         }
     }
 
+    // Implemented simple round-robin video mediation here
+    // You may be interested in using mediation service like https://www.tapdaq.com
     public static void showVideo() {
         Log.d("ABPlugin", "showVideo");
         tryVideoCount = AD_MAX;
@@ -122,6 +137,7 @@ public class ABPlugin {
         if (ad == AD_TAPJOY) {
             if (Tapjoy.isConnected()) {
                 if (tjVideo == null) {
+                    // Use your own placement name
                     tjVideo = Tapjoy.getPlacement("video_unit", tjListener);
                 }
 
@@ -140,11 +156,13 @@ public class ABPlugin {
             Runnable runnable = new Runnable() {
                 @Override
                 public void run() {
+                    // !!! Use your own AD id here
                     adMobVideo.loadAd("ca-app-pub-7650460971703784/5754091386",
                             new AdRequest.Builder().build());
                 }
             };
 
+            // Most third party SDK runs well only on the UI thread
             if (weakActivity != null) {
                 Activity activity = weakActivity.get();
                 if (activity != null) {
@@ -175,6 +193,8 @@ public class ABPlugin {
                         return;
                     }
                     else if (tjOffers.isContentReady()) {
+                        // Tapjoy dashboard shows how many times Offerwall is shown
+                        // Since Firebase is not aware of it, let it know
                         tjOffers.showContent();
                         firebaseAnalytics.logEvent("show_tapjoy_offers", null);
                     }
@@ -202,12 +222,27 @@ public class ABPlugin {
     public static void setRemoteNotifications(int val) {
         Log.d("ABPlugin", "setRemoteNotifications");
         Tapjoy.setPushNotificationDisabled(val == 0);
+        // We want to group push enabled users and send them push notifications later.
         firebaseAnalytics.setUserProperty(AB_COHORT_PUSH, String.valueOf(val));
     }
 
+    // Callbacks are here - defined in gabplugin.cpp
     public static native void enqueueEvent0(int type);
     public static native void enqueueEvent1(int type, int n);
 
+    // So, why do we get currency balance and spend them all?
+    // Tapjoy supports two types of virtual currency.
+    // 1) Self managed currency
+    //    You need to use this approach when you have a server which manages virtual currency of your game.
+    //    When a user earns currency, Tapjoy will directly calls your server.
+    //    In this case, you can remove `checkCurrency` below.
+    // 2) Tapjoy managed currency
+    //    If
+    //      - your game doesn't have a server
+    //      - your game can be played when it's offline
+    //      - your game uses not only Tapjoy for rewarded AD,
+    //    you may want to manage virtual currency locally. In this case following code is for you.
+    //    Get current currency balance, spend them all, and manage it by yourself (at Lua layer)
     private static void checkCurrency() {
         Tapjoy.getCurrencyBalance(new TJGetCurrencyBalanceListener() {
             @Override
